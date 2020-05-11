@@ -1,10 +1,12 @@
-package by.ignot.messupger
+package by.ignot.messupger.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import by.ignot.messupger.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
@@ -24,6 +26,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var resendToken : PhoneAuthProvider.ForceResendingToken
     private lateinit var callbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)

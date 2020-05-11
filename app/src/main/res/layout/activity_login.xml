@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogInActivity"
+    tools:context=".activity.LogInActivity"
     android:orientation="vertical">
 
 
@@ -18,19 +18,19 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Code from message"
+        android:hint="@string/code_from_message"
         android:id="@+id/verificationCodeFromMessageId"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:text="@string/log_in"
         android:id="@+id/logInButtonId"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Verification Code"
+        android:text="@string/send_verification_code"
         android:id="@+id/sendCodeButtonId"/>
 
 </LinearLayout>
