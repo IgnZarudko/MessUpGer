@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "866882768819",
+    "firebase_url": "https://messupger.firebaseio.com",
+    "project_id": "messupger",
+    "storage_bucket": "messupger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866882768819:android:44a5c7e646f8966c6c85c6",
+        "android_client_info": {
+          "package_name": "by.ignot.messupger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866882768819-4kcgrb46kul8fte9njsd1e8m5ch4jvsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8z7mUMRaDzqUxUAi-TEgA-I7vTZq8plE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866882768819-4kcgrb46kul8fte9njsd1e8m5ch4jvsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
