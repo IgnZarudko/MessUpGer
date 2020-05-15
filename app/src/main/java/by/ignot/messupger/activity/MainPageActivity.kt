@@ -36,6 +36,8 @@ class MainPageActivity : AppCompatActivity() {
 
         logOutButton = findViewById(R.id.logOutButtonId)
 
+        chatList = ArrayList()
+
         logOutButton.setOnClickListener{FirebaseAuth.getInstance().signOut();
             val intent = Intent(applicationContext, LogInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -65,6 +67,14 @@ class MainPageActivity : AppCompatActivity() {
                 if(dataSnapshot.exists()){
                     for (childSnapshot in dataSnapshot.children){
                         val chat = ChatObject(childSnapshot.key)
+                        var isChatExists = false
+                        for (currentChat in chatList){
+                            if(currentChat.chatId == chat.chatId){
+                                isChatExists = true
+                            }
+                        }
+                        if (isChatExists)
+                            continue
                         chatList.add(chat)
                         chatListAdapter.notifyDataSetChanged()
                     }
