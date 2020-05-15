@@ -105,16 +105,14 @@ class LogInActivity : AppCompatActivity() {
                                 if (!dataSnapshot.exists()){
                                     val userMap = HashMap<String, String?>()
                                     userMap["phone"] = user.phoneNumber
-                                    userMap["name"] = user.displayName
+                                    userMap["name"] = user.phoneNumber
                                     userDatabaseReference.updateChildren(userMap.toMap())
-
                                 }
+                                userIsLoggedIn()
                             }
-
                         })
                     }
                 }
-//                userIsLoggedIn()
             }
     }
 

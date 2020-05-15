@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -26,9 +27,14 @@ class UserListAdapter(private var userList: ArrayList<UserObject>) :
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
         holder.name.text = userList[position].name
         holder.phone.text = userList[position].phone
+
+        holder.layout.setOnClickListener{
+
+        }
     }
 
     class UserListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var layout : LinearLayout = view.findViewById(R.id.layoutId)
         var name : TextView = view.findViewById(R.id.nameId)
         var phone : TextView = view.findViewById(R.id.phoneId)
     }
