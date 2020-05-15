@@ -80,7 +80,7 @@ class FindUserActivity : AppCompatActivity() {
                             name = childSnapshot.child("name").value.toString()
                         }
 
-                        val user = UserObject(name, phone)
+                        val user = UserObject(name, phone, childSnapshot.key)
                         if (name == phone){
                             for(currentContact in contactList){
                                 if (currentContact.phone == user.phone){

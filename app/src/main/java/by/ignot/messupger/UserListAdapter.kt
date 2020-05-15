@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class UserListAdapter(private var userList: ArrayList<UserObject>) :
     RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
@@ -29,7 +32,10 @@ class UserListAdapter(private var userList: ArrayList<UserObject>) :
         holder.phone.text = userList[position].phone
 
         holder.layout.setOnClickListener{
+            val key = FirebaseDatabase.getInstance().reference.child("chat").push().key
 
+            FirebaseDatabase.getInstance().reference.child("user").child(FirebaseAuth.getInstance().uid!!).child("chat").child(key!!).setValue(true)
+            FirebaseDatabase.getInstance().reference.child("user").child(userList[position].uid!!).child("chat").child(key!!).setValue(true)
         }
     }
 
@@ -38,6 +44,4 @@ class UserListAdapter(private var userList: ArrayList<UserObject>) :
         var name : TextView = view.findViewById(R.id.nameId)
         var phone : TextView = view.findViewById(R.id.phoneId)
     }
-
-
 }
