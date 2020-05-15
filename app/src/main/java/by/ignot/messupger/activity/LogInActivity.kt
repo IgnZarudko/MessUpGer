@@ -10,6 +10,7 @@ import by.ignot.messupger.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
+import com.google.firebase.database.*
 import java.util.concurrent.TimeUnit
 
 
@@ -92,8 +93,28 @@ class LogInActivity : AppCompatActivity() {
             .signInWithCredential(credential)
             .addOnCompleteListener(this){ task ->
                 if (task.isSuccessful){
-                    userIsLoggedIn()
+                    val user : FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                    if (user != null){
+                        val userDatabaseReference : DatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(user.uid)
+                        userDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onCancelled(databaseError: DatabaseError) {
+
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (!dataSnapshot.exists()){
+                                    val userMap = HashMap<String, String?>()
+                                    userMap["phone"] = user.phoneNumber
+                                    userMap["name"] = user.displayName
+                                    userDatabaseReference.updateChildren(userMap.toMap())
+
+                                }
+                            }
+
+                        })
+                    }
                 }
+//                userIsLoggedIn()
             }
     }
 
