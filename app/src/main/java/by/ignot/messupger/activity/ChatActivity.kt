@@ -88,7 +88,7 @@ class ChatActivity : AppCompatActivity() {
             val messageDatabaseReference = chatDatabaseReference.push()
 
             val newMessageMap = HashMap<String, String>()
-            newMessageMap["messageText"] = message.text.toString()
+            newMessageMap["messageText"] = message.text.toString().trimStart().trimEnd()
             newMessageMap["senderId"] = FirebaseAuth.getInstance().uid!!
 
             val userNameDatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(FirebaseAuth.getInstance().uid!!).child("name")
@@ -100,10 +100,10 @@ class ChatActivity : AppCompatActivity() {
                     if (dataSnapshot.value != null){
                         newMessageMap["senderName"] = dataSnapshot.value.toString()
                     }
+                    messageDatabaseReference.updateChildren(newMessageMap.toMap())
                 }
             })
 
-            messageDatabaseReference.updateChildren(newMessageMap.toMap())
         }
         message.text = null
     }
