@@ -27,7 +27,7 @@ class MessageAdapter(private var messageList: ArrayList<MessageItem>) :
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         holder.message.text = messageList[position].messageText
-        holder.sender.text = messageList[position].senderId
+        holder.sender.text = messageList[position].senderName
     }
 
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
