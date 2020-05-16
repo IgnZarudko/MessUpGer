@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.util.CountryToPhonePrefix
 import by.ignot.messupger.R
-import by.ignot.messupger.UserListAdapter
-import by.ignot.messupger.UserObject
+import by.ignot.messupger.user.UserListAdapter
+import by.ignot.messupger.user.UserItem
 import com.google.firebase.database.*
 
 class FindUserActivity : AppCompatActivity() {
@@ -21,8 +21,8 @@ class FindUserActivity : AppCompatActivity() {
     private lateinit var userListAdapter : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>
     private lateinit var userListLayoutManager: RecyclerView.LayoutManager
 
-    private lateinit var userList : ArrayList<UserObject>
-    private lateinit var contactList : ArrayList<UserObject>
+    private lateinit var userList : ArrayList<UserItem>
+    private lateinit var contactList : ArrayList<UserItem>
 
 
 
@@ -55,14 +55,14 @@ class FindUserActivity : AppCompatActivity() {
                     phone = getCountryISO() + phone
                 }
 
-                val contact = UserObject(name, phone)
+                val contact = UserItem(name, phone)
                 contactList.add(contact)
                 getUserDetails(contact)
             }
         }
     }
 
-    private fun getUserDetails(contact: UserObject) {
+    private fun getUserDetails(contact: UserItem) {
         val userDatabaseReference = FirebaseDatabase.getInstance().reference.child("user")
         val query : Query = userDatabaseReference.orderByChild("phone").equalTo(contact.phone)
         query.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -80,7 +80,11 @@ class FindUserActivity : AppCompatActivity() {
                             name = childSnapshot.child("name").value.toString()
                         }
 
-                        val user = UserObject(name, phone, childSnapshot.key)
+                        val user = UserItem(
+                            name,
+                            phone,
+                            childSnapshot.key
+                        )
                         if (name == phone){
                             for(currentContact in contactList){
                                 if (currentContact.phone == user.phone){

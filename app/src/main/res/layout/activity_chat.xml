@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ChatActivity">
+
+    <View
+        android:id="@+id/delimeter_view"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginBottom="20sp"
+        android:background="@color/cardview_light_background"
+        tools:ignore="PrivateResource" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sendLayoutId"
+        android:id="@+id/chatId" />
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/sendLayoutId">
+        
+        <EditText
+            android:layout_weight="0.85"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/inputMessageId"
+            android:hint="@string/message"
+            android:autofillHints="" />
+        <Button
+            android:layout_weight="0.15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendMessageButtonId"/>
+    </LinearLayout>
+
+</RelativeLayout>

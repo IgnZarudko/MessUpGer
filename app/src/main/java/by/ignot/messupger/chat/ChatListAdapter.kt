@@ -1,6 +1,8 @@
 package by.ignot.messupger.chat
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +10,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import by.ignot.messupger.activity.ChatActivity
 
-class ChatListAdapter(private var chatList: ArrayList<ChatObject>) :
+class ChatListAdapter(private var chatList: ArrayList<ChatItem>) :
     RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
 
     @SuppressLint("InflateParams")
@@ -31,12 +32,16 @@ class ChatListAdapter(private var chatList: ArrayList<ChatObject>) :
         holder.title.text = chatList[position].chatId
 
         holder.layout.setOnClickListener{
-
+            val intent = Intent(it.context, ChatActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("chatId", chatList[holder.adapterPosition].chatId)
+            intent.putExtras(bundle)
+            it.context.startActivity(intent)
         }
     }
 
     class ChatListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var layout : LinearLayout = view.findViewById(R.id.layoutId)
+        var layout : LinearLayout = view.findViewById(R.id.chatLayoutId)
         var title : TextView = view.findViewById(R.id.titleId)
     }
 }
