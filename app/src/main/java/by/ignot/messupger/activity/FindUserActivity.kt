@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.util.CountryToPhonePrefix
 import by.ignot.messupger.R
-import by.ignot.messupger.UserListAdapter
-import by.ignot.messupger.UserItem
+import by.ignot.messupger.user.UserListAdapter
+import by.ignot.messupger.user.UserItem
 import com.google.firebase.database.*
 
 class FindUserActivity : AppCompatActivity() {
@@ -80,7 +80,11 @@ class FindUserActivity : AppCompatActivity() {
                             name = childSnapshot.child("name").value.toString()
                         }
 
-                        val user = UserItem(name, phone, childSnapshot.key)
+                        val user = UserItem(
+                            name,
+                            phone,
+                            childSnapshot.key
+                        )
                         if (name == phone){
                             for(currentContact in contactList){
                                 if (currentContact.phone == user.phone){

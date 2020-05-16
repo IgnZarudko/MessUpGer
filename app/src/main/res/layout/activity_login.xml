@@ -6,14 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LogInActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true">
 
+    <EditText
+        android:id="@+id/userNameId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Your Name"/>
 
     <EditText
         android:id="@+id/userPhoneNumberId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Your Phone" />
+        android:hint="Your Phone"
+        />
 
     <EditText
         android:layout_width="wrap_content"

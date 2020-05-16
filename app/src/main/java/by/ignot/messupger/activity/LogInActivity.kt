@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class LogInActivity : AppCompatActivity() {
 
+    private lateinit var userName : EditText
     private lateinit var userPhoneNumber : EditText
     private lateinit var verificationCode : EditText
     private lateinit var logInButton: Button
@@ -35,6 +36,7 @@ class LogInActivity : AppCompatActivity() {
 
         userIsLoggedIn()
 
+        userName = findViewById(R.id.userNameId)
         userPhoneNumber = findViewById(R.id.userPhoneNumberId)
         verificationCode = findViewById(R.id.verificationCodeFromMessageId)
         storeVerificationId = ""
@@ -105,7 +107,7 @@ class LogInActivity : AppCompatActivity() {
                                 if (!dataSnapshot.exists()){
                                     val userMap = HashMap<String, String?>()
                                     userMap["phone"] = user.phoneNumber
-                                    userMap["name"] = user.phoneNumber
+                                    userMap["name"] = userName.text.toString()
                                     userDatabaseReference.updateChildren(userMap.toMap())
                                 }
                                 userIsLoggedIn()
