@@ -10,13 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.R
-import by.ignot.messupger.UserListAdapter
-import by.ignot.messupger.UserObject
 import by.ignot.messupger.chat.ChatListAdapter
-import by.ignot.messupger.chat.ChatObject
+import by.ignot.messupger.chat.ChatItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 
 class MainPageActivity : AppCompatActivity() {
 
@@ -24,7 +21,7 @@ class MainPageActivity : AppCompatActivity() {
     private lateinit var chatListAdapter : RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>
     private lateinit var chatListLayoutManager: RecyclerView.LayoutManager
 
-    private lateinit var chatList : ArrayList<ChatObject>
+    private lateinit var chatList : ArrayList<ChatItem>
 
     private lateinit var logOutButton : Button
     private lateinit var findUserButton: Button
@@ -38,7 +35,7 @@ class MainPageActivity : AppCompatActivity() {
 
         chatList = ArrayList()
 
-        logOutButton.setOnClickListener{FirebaseAuth.getInstance().signOut();
+        logOutButton.setOnClickListener{FirebaseAuth.getInstance().signOut()
             val intent = Intent(applicationContext, LogInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
@@ -66,7 +63,7 @@ class MainPageActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
                     for (childSnapshot in dataSnapshot.children){
-                        val chat = ChatObject(childSnapshot.key)
+                        val chat = ChatItem(childSnapshot.key)
                         var isChatExists = false
                         for (currentChat in chatList){
                             if(currentChat.chatId == chat.chatId){

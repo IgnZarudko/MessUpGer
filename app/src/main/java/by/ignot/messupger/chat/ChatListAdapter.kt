@@ -8,10 +8,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 
-class ChatListAdapter(private var chatList: ArrayList<ChatObject>) :
+class ChatListAdapter(private var chatList: ArrayList<ChatItem>) :
     RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder>() {
 
     @SuppressLint("InflateParams")
