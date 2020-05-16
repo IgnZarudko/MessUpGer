@@ -57,6 +57,7 @@ class ChatActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()){
                     var messageText = ""
                     var senderId = ""
+                    var senderName = ""
 
                     if (dataSnapshot.child("messageText").value != null){
                         messageText = dataSnapshot.child("messageText").value.toString()
@@ -64,8 +65,11 @@ class ChatActivity : AppCompatActivity() {
                     if (dataSnapshot.child("senderId").value != null){
                         senderId = dataSnapshot.child("senderId").value.toString()
                     }
+                    if(dataSnapshot.child("senderName").value != null){
+                        senderName = dataSnapshot.child("senderName").value.toString()
+                    }
 
-                    val messageItem = MessageItem(dataSnapshot.key!!, senderId, messageText)
+                    val messageItem = MessageItem(dataSnapshot.key!!, senderId, messageText, senderName)
                     messageList.add(messageItem)
                     chatLayoutManager.scrollToPosition(messageList.size - 1)
                     chatAdapter.notifyDataSetChanged()
@@ -86,6 +90,18 @@ class ChatActivity : AppCompatActivity() {
             val newMessageMap = HashMap<String, String>()
             newMessageMap["messageText"] = message.text.toString()
             newMessageMap["senderId"] = FirebaseAuth.getInstance().uid!!
+
+            val userNameDatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(FirebaseAuth.getInstance().uid!!).child("name")
+            userNameDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.value != null){
+                        newMessageMap["senderName"] = dataSnapshot.value.toString()
+                    }
+                }
+            })
 
             messageDatabaseReference.updateChildren(newMessageMap.toMap())
         }
