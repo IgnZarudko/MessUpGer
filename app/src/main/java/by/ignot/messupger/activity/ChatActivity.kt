@@ -2,6 +2,7 @@ package by.ignot.messupger.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -12,8 +13,12 @@ import by.ignot.messupger.message.MessageAdapter
 import by.ignot.messupger.message.MessageItem
 import by.ignot.messupger.R
 import by.ignot.messupger.media.MediaAdapter
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 
 class ChatActivity : AppCompatActivity() {
 
@@ -57,30 +62,67 @@ class ChatActivity : AppCompatActivity() {
         getChatMessages()
     }
 
+
+    private var totalMediaUploaded = 0
+    private var mediaIdList = ArrayList<String>()
+    private lateinit var message : EditText
+
     private fun sendMessage(){
-        val message : EditText = findViewById(R.id.inputMessageId)
-        if (message.text.toString().isNotEmpty()){
-            val messageDatabaseReference = chatDatabaseReference.push()
+        message = findViewById(R.id.inputMessageId)
 
-            val newMessageMap = HashMap<String, String>()
+        val messageId = chatDatabaseReference.push().key
+        val messageDatabaseReference = chatDatabaseReference.child(messageId!!)
+
+        val newMessageMap = HashMap<String, String>()
+
+        if(message.text.toString().isNotEmpty())
             newMessageMap["messageText"] = message.text.toString().trimStart().trimEnd()
-            newMessageMap["senderId"] = FirebaseAuth.getInstance().uid!!
 
-            val userNameDatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(FirebaseAuth.getInstance().uid!!).child("name")
-            userNameDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                }
+        newMessageMap["senderId"] = FirebaseAuth.getInstance().uid!!
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.value != null){
-                        newMessageMap["senderName"] = dataSnapshot.value.toString()
+        if (mediaUriList.isNotEmpty()){
+            for(mediaUri in mediaUriList){
+                val mediaId = messageDatabaseReference.child("media").push().key
+                mediaIdList.add(mediaId!!)
+                val filePath : StorageReference = FirebaseStorage.getInstance().reference.child("chat").child(chatId!!).child(messageId).child(mediaId!!)
+
+                val uploadTask : UploadTask = filePath.putFile(Uri.parse(mediaUri))
+
+                uploadTask.addOnSuccessListener {
+                    filePath.downloadUrl.addOnSuccessListener {
+                        newMessageMap["/media/" + mediaIdList[totalMediaUploaded] + "/"] = it.toString()
+                        totalMediaUploaded++
+                        if (totalMediaUploaded == mediaUriList.size){
+                            updateDatabaseWithNewMessage(messageDatabaseReference, newMessageMap)
+                        }
                     }
-                    messageDatabaseReference.updateChildren(newMessageMap.toMap())
                 }
-            })
-
+            }
         }
-        message.text = null
+        else
+            if(message.text.toString().isNotEmpty())
+                updateDatabaseWithNewMessage(messageDatabaseReference, newMessageMap)
+    }
+
+    private fun updateDatabaseWithNewMessage(messageDatabaseReference: DatabaseReference, newMessageMap : HashMap<String, String>){
+
+        val userNameDatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(FirebaseAuth.getInstance().uid!!).child("name")
+        userNameDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.value != null){
+                    newMessageMap["senderName"] = dataSnapshot.value.toString()
+                }
+                messageDatabaseReference.updateChildren(newMessageMap.toMap())
+            }
+        })
+
+        message.text.clear()
+        mediaUriList.clear()
+        mediaIdList.clear()
+        mediaAdapter.notifyDataSetChanged()
     }
 
     private fun initializeMessageRecyclerView(){
