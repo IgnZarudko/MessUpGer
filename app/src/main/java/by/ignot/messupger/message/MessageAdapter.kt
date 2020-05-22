@@ -35,7 +35,7 @@ class MessageAdapter(private var messageList: ArrayList<MessageItem>) :
             holder.showMediaButton.visibility = View.GONE
 
         holder.showMediaButton.setOnClickListener {
-            Fresco.initialize(it.context);
+            Fresco.initialize(it.context)
             ImageViewer.Builder(it.context, messageList[holder.adapterPosition].mediaUrlList)
             .setStartPosition(0)
             .show()
@@ -45,7 +45,7 @@ class MessageAdapter(private var messageList: ArrayList<MessageItem>) :
     class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val showMediaButton : Button = view.findViewById(R.id.showMediaButtonId)
         val message : TextView = view.findViewById(R.id.messageId)
-        val sender : TextView = view.findViewById(R.id.senderId)
+        val sender : TextView = view.findViewById(R.id.senderNameId)
         var layout : LinearLayout = view.findViewById(R.id.messageLayoutId)
     }
 }
