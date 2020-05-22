@@ -7,20 +7,26 @@
     tools:context=".activity.MainPageActivity"
     android:orientation="vertical">
 
-
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/log_out"
-        android:id="@+id/logOutButtonId"/>
+        android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/findUserButtonId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/find_user" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/log_out"
+            android:id="@+id/logOutButtonId"/>
+
+        <Button
+            android:id="@+id/findUserButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/find_user" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_gravity="left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"

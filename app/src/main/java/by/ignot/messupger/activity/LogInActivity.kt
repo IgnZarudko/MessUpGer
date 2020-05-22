@@ -99,9 +99,7 @@ class LogInActivity : AppCompatActivity() {
                     if (user != null){
                         val userDatabaseReference : DatabaseReference = FirebaseDatabase.getInstance().reference.child("user").child(user.uid)
                         userDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener{
-                            override fun onCancelled(databaseError: DatabaseError) {
-
-                            }
+                            override fun onCancelled(databaseError: DatabaseError) {}
 
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (!dataSnapshot.exists()){
