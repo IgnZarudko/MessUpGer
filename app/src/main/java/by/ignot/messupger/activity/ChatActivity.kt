@@ -1,5 +1,7 @@
 package by.ignot.messupger.activity
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -38,6 +40,13 @@ class ChatActivity : AppCompatActivity() {
         sendMessageButton.setOnClickListener{
             sendMessage()
         }
+
+        val addMediaButton : Button = findViewById(R.id.addMediaButtonId)
+        addMediaButton.setOnClickListener{
+            openGallery()
+        }
+
+
         initializeRecyclerView()
         getChatMessages()
     }
@@ -106,6 +115,32 @@ class ChatActivity : AppCompatActivity() {
 
         }
         message.text = null
+    }
+
+
+    private var pickImageIntent : Int = 1
+    private var mediaUriList = ArrayList<String>()
+    private fun openGallery(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Choose Picture(s)"), pickImageIntent)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == pickImageIntent){
+                if(data?.clipData == null){
+                    mediaUriList.add(data?.data.toString())
+                } else {
+                  for(i in 0 until data.clipData!!.itemCount){
+                      mediaUriList.add(data.clipData!!.getItemAt(i).uri.toString())
+                  }
+                }
+            }
+        }
     }
 
     private fun initializeRecyclerView(){
