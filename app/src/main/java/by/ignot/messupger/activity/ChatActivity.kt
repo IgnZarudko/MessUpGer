@@ -194,17 +194,22 @@ class ChatActivity : AppCompatActivity() {
                     var senderId = ""
                     var senderName = ""
 
-                    if (dataSnapshot.child("messageText").value != null){
+                    val mediaUrlList = ArrayList<String>()
+                    if (dataSnapshot.child("messageText").value != null)
                         messageText = dataSnapshot.child("messageText").value.toString()
-                    }
-                    if (dataSnapshot.child("senderId").value != null){
-                        senderId = dataSnapshot.child("senderId").value.toString()
-                    }
-                    if(dataSnapshot.child("senderName").value != null){
-                        senderName = dataSnapshot.child("senderName").value.toString()
-                    }
 
-                    val messageItem = MessageItem(dataSnapshot.key!!, senderId, messageText, senderName)
+                    if (dataSnapshot.child("senderId").value != null)
+                        senderId = dataSnapshot.child("senderId").value.toString()
+
+                    if(dataSnapshot.child("senderName").value != null)
+                        senderName = dataSnapshot.child("senderName").value.toString()
+
+                    if(dataSnapshot.child("media").childrenCount > 0)
+                        for (mediaSnapshot in dataSnapshot.child("media").children)
+                            mediaUrlList.add(mediaSnapshot.value.toString())
+
+
+                    val messageItem = MessageItem(dataSnapshot.key!!, senderId, messageText, senderName, mediaUrlList)
                     messageList.add(messageItem)
                     chatLayoutManager.scrollToPosition(messageList.size - 1)
                     chatAdapter.notifyDataSetChanged()

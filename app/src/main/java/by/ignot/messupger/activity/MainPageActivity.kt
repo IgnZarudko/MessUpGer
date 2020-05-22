@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.R
 import by.ignot.messupger.chat.ChatListAdapter
 import by.ignot.messupger.chat.ChatItem
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -30,7 +31,7 @@ class MainPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
-
+        Fresco.initialize(this);
         logOutButton = findViewById(R.id.logOutButtonId)
 
         chatList = ArrayList()
