@@ -1,11 +1,14 @@
 package by.ignot.messupger.media
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import by.ignot.messupger.R
+import com.bumptech.glide.Glide
 
 class MediaAdapter : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>{
 
@@ -16,9 +19,7 @@ class MediaAdapter : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>{
         this.mediaList = mediaList
     }
 
-    class MediaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val layoutView : View = LayoutInflater.from(parent.context).inflate(R.layout.item_media, null, false)
@@ -26,10 +27,14 @@ class MediaAdapter : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>{
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return mediaList.size
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        Glide.with(context).load(Uri.parse(mediaList[position])).into(holder.mediaItem)
+    }
+
+    class MediaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var mediaItem : ImageView = itemView.findViewById(R.id.mediaItemId)
     }
 }
